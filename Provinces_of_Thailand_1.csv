@@ -1,0 +1,80 @@
+Seal,Name,"Name
+(in Thai)",Population (2019),Area (km2),Population density,Namesake town/city,HS,ISO,FIPS
+,"Bangkok 
+(special administrative area)",กรุงเทพมหานคร,"5,666,264","1,564","3,623",Bangkok,BKK,TH-10,TH40
+,Amnat Charoen,อำนาจเจริญ,"378,438","3,290",115,Amnat Charoen,ACR,TH-37,TH77
+,Ang Thong,อ่างทอง,"279,654",950,294,Ang Thong,ATG,TH-15,TH35
+,Bueng Kan,บึงกาฬ,"424,091","4,003",106,Bueng Kan,BKN,TH-38,TH81
+,Buriram,บุรีรัมย์,"1,595,747","10,080",159,Buriram,BRM,TH-31,TH28
+,Chachoengsao,ฉะเชิงเทรา,"720,113","5,169",139,Chachoengsao,CCO,TH-24,TH44
+,Chai Nat,ชัยนาท,"326,611","2,506",131,Chai Nat,CNT,TH-18,TH32
+,Chaiyaphum,ชัยภูมิ,"1,137,357","12,698",91,Chaiyaphum,CPM,TH-36,TH26
+,Chanthaburi,จันทบุรี,"537,698","6,415",84,Chanthaburi,CTI,TH-22,TH48
+,Chiang Mai,เชียงใหม่,"1,779,254","22,135",79,Chiang Mai,CMI,TH-50,TH02
+,Chiang Rai,เชียงราย,"1,298,304","11,503",113,Chiang Rai,CRI,TH-57,TH03
+,Chonburi,ชลบุรี,"1,558,301","4,508",346,Chonburi,CBI,TH-20,TH46
+,Chumphon,ชุมพร,"511,304","5,998",85,Chumphon,CPN,TH-86,TH58
+,Kalasin,กาฬสินธุ์,"983,418","6,936",142,Kalasin,KSN,TH-46,TH23
+,Kamphaeng Phet,กำแพงเพชร,"725,867","8,512",86,Kamphaeng Phet,KPT,TH-62,TH11
+,Kanchanaburi,กาญจนบุรี,"895,525","19,385",46,Kanchanaburi,KRI,TH-71,TH50
+,Khon Kaen,ขอนแก่น,"1,802,872","10,659",169,Khon Kaen,KKN,TH-40,TH22
+,Krabi,กระบี่,"476,739","5,323",90,Krabi,KBI,TH-81,TH63
+,Lampang,ลำปาง,"738,316","12,488",59,Lampang,LPG,TH-52,TH06
+,Lamphun,ลำพูน,"405,075","4,478",92,Lamphun,LPN,TH-51,TH05
+,Loei,เลย,"642,950","10,500",61,Loei,LEI,TH-42,TH18
+,Lopburi,ลพบุรี,"755,556","6,493",116,Lopburi,LRI,TH-16,TH34
+,Mae Hong Son,แม่ฮ่องสอน,"284,138","12,765",23,Mae Hong Son,MSN,TH-58,TH01
+,Maha Sarakham,มหาสารคาม,"962,665","5,607",172,Maha Sarakham,MKM,TH-44,TH24
+,Mukdahan,มุกดาหาร,"353,174","4,126",87,Mukdahan,MDH,TH-49,TH78
+,Nakhon Nayok,นครนายก,"260,751","2,141",122,Nakhon Nayok,NYK,TH-26,TH43
+,Nakhon Pathom,นครปฐม,"920,030","2,142",430,Nakhon Pathom,NPT,TH-73,TH53
+,Nakhon Phanom,นครพนม,"719,136","5,637",127,Nakhon Phanom,NPM,TH-48,TH73
+,Nakhon Ratchasima,นครราชสีมา,"2,648,927","20,736",128,Nakhon Ratchasima,NMA,TH-30,TH27
+,Nakhon Sawan,นครสวรรค์,"1,059,887","9,526",111,Nakhon Sawan,NSN,TH-60,TH16
+,Nakhon Si Thammarat,นครศรีธรรมราช,"1,561,927","9,885",158,Nakhon Si Thammarat,NRT,TH-80,TH64
+,Nan,น่าน,"478,227","12,130",40,Nan,NAN,TH-55,TH04
+,Narathiwat,นราธิวาส,"808,020","4,491",180,Narathiwat,NWT,TH-96,TH31
+,Nong Bua Lamphu,หนองบัวลำภู,"512,780","4,099",125,Nong Bua Lam Phu,NBP,TH-39,TH79
+,Nong Khai,หนองคาย,"522,311","3,275",160,Nong Khai,NKI,TH-43,TH17
+,Nonthaburi,นนทบุรี,"1,265,387",637,"1,986",Nonthaburi,NBI,TH-12,TH38
+,Pathum Thani,ปทุมธานี,"1,163,604","1,520",766,Pathum Thani,PTE,TH-13,TH39
+,Pattani,ปัตตานี,"725,104","1,977",367,Pattani,PTN,TH-94,TH69
+,Phang Nga,พังงา,"268,788","5,495",49,Phang Nga,PNA,TH-82,TH61
+,Phatthalung,พัทลุง,"524,865","3,861",135,Phatthalung,PLG,TH-93,TH66
+,Phayao,พะเยา,"472,356","6,189",76,Phayao,PYO,TH-56,TH41
+,Phetchabun,เพชรบูรณ์,"992,451","12,340",80,Phetchabun,PNB,TH-67,TH14
+,Phetchaburi,เพชรบุรี,"485,191","6,172",77,Phetchaburi,PBI,TH-76,TH56
+,Phichit,พิจิตร,"536,311","4,319",124,Phichit,PCT,TH-66,TH13
+,Phitsanulok,พิษณุโลก,"865,247","10,589",82,Phitsanulok,PLK,TH-65,TH12
+,Phra Nakhon Si Ayutthaya,พระนครศรีอยุธยา,"820,188","2,548",322,Phra Nakhon Si Ayutthaya,AYA,TH-14,TH36
+,Phrae,แพร่,"441,726","6,483",68,Phrae,PRE,TH-54,TH07
+,Phuket,ภูเก็ต,"416,582",547,762,Phuket,PKT,TH-83,TH62
+,Prachinburi,ปราจีนบุรี,"494,680","5,026",99,Prachinburi,PRI,TH-25,TH74
+,Prachuap Khiri Khan,ประจวบคีรีขันธ์,"554,116","6,414",88,Prachuap Khiri Khan,PKN,TH-77,TH57
+,Ranong,ระนอง,"193,370","3,230",60,Ranong,RNG,TH-85,TH59
+,Ratchaburi,ราชบุรี,"873,101","5,189",168,Ratchaburi,RBR,TH-70,TH52
+,Rayong,ระยอง,"734,753","3,666",201,Rayong,RYG,TH-21,TH47
+,Roi Et,ร้อยเอ็ด,"1,305,211","7,873",166,Roi Et,RET,TH-45,TH25
+,Sa Kaeo,สระแก้ว,"566,303","6,831",83,Sa Kaeo,SKW,TH-27,TH80
+,Sakon Nakhon,สกลนคร,"1,153,390","9,580",121,Sakon Nakhon,SNK,TH-47,TH20
+,Samut Prakan,สมุทรปราการ,"1,344,875",947,"1,420",Samut Prakan,SPK,TH-11,TH42
+,Samut Sakhon,สมุทรสาคร,"584,703",866,675,Samut Sakhon,SKN,TH-74,TH55
+,Samut Songkhram,สมุทรสงคราม,"193,305",414,467,Samut Songkhram,SKM,TH-75,TH54
+,Saraburi,สระบุรี,"645,911","3,499",185,Saraburi,SRI,TH-19,TH37
+,Satun,สตูล,"323,586","3,019",107,Satun,STN,TH-91,TH67
+,Sing Buri,สิงห์บุรี,"208,446",817,255,Sing Buri,SBR,TH-17,TH33
+,Sisaket,ศรีสะเกษ,"1,472,859","8,936",165,Sisaket,SSK,TH-33,TH30
+,Songkhla,สงขลา,"1,435,968","7,741",186,Songkhla,SKA,TH-90,TH68
+,Sukhothai,สุโขทัย,"595,072","6,671",89,Sukhothai (Sukhothai Thani),STI,TH-64,TH09
+,Suphan Buri,สุพรรณบุรี,"846,334","5,410",156,Suphan Buri,SPB,TH-72,TH51
+,Surat Thani,สุราษฎร์ธานี,"1,068,010","13,079",81,Surat Thani,SNI,TH-84,TH60
+,Surin,สุรินทร์,"1,396,831","8,854",157,Surin,SRN,TH-32,TH29
+,Tak,ตาก,"665,620","17,303",39,Tak,TAK,TH-63,TH08
+,Trang,ตรัง,"643,164","4,726",136,Trang,TRG,TH-92,TH65
+,Trat,ตราด,"229,958","2,866",78,Trat,TRT,TH-23,TH49
+,Ubon Ratchathani,อุบลราชธานี,"1,878,146","15,626",120,Ubon Ratchathani,UBN,TH-34,TH75
+,Udon Thani,อุดรธานี,"1,586,646","11,072",143,Udon Thani,UDN,TH-41,TH76
+,Uthai Thani,อุทัยธานี,"328,618","6,647",50,Uthai Thani,UTI,TH-61,TH15
+,Uttaradit,อุตรดิตถ์,"453,103","7,906",58,Uttaradit,UTD,TH-53,TH10
+,Yala,ยะลา,"536,330","4,476",119,Yala,YLA,TH-95,TH70
+,Yasothon,ยโสธร,"537,299","4,131",130,Yasothon,YST,TH-35,TH72
