@@ -40,10 +40,10 @@ for i, station_id in enumerate(id_table['station_id']):
                                          'pressure', 'wind_dir', 'wind_sp',
                                          'visibility', 'rain_3h', 'cloud'])
 
-    old_df = pd.read_csv(f'day_csv/day_{station_id}.csv')
-    new_df = pd.concat([old_df, df], join='inner')
-    new_df = new_df.drop_duplicates(subset=['datetime'], keep='last')
-    new_df.to_csv(f'day_csv/new_day_{station_id}.csv')
+    # old_df = pd.read_csv(f'day_csv/day_{station_id}.csv')
+    # new_df = pd.concat([old_df, df], join='inner')
+    # new_df = new_df.drop_duplicates(subset=['datetime'], keep='last')
+    df.to_csv(f'day_csv/day_{station_id}.csv')
 
     # Last 7 days
     view1 = soup.find('div', id='view1')
@@ -60,10 +60,9 @@ for i, station_id in enumerate(id_table['station_id']):
         row_list.append(column_list)
     df = pd.DataFrame(row_list, columns=['date', 'min_temp', 'max_temp', 'max_wind_dir',
                                          'max_wind_sp', 'rain_24h', 'note'])
-    old_df = pd.read_csv(f'week_csv/week_{station_id}.csv')
-    new_df = pd.concat([old_df, df], join='inner')
-    new_df = new_df.drop_duplicates(subset=['date'], keep='last')
-    new_df.to_csv(f'week_csv/week_{station_id}.csv')
+    # old_df = pd.read_csv(f'week_csv/week_{station_id}.csv')
+    # new_df = pd.concat([old_df, df], join='inner')
+    # new_df = new_df.drop_duplicates(subset=['date'], keep='last')
+    df.to_csv(f'week_csv/week_{station_id}.csv')
 
     print(station_id)
-
