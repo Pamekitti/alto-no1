@@ -1,5 +1,6 @@
-from dash import Dash, dcc, Output, Input  # pip install dash
-import dash_bootstrap_components as dbc    # pip install dash-bootstrap-components
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output, ALL, State, MATCH, ALLSMALLER
 import plotly.express as px
 import pandas as pd                        # pip install pandas
 import numpy as np
@@ -42,46 +43,89 @@ df_to_merge = pd.DataFrame(to_merge, columns=['datetime', 'temp', 'dew_point', '
                                               'visibility', 'rain_3h', 'cloud', 'station_id'])
 df = df.merge(df_to_merge, how='left', on='station_id')
 
-# Build components
-app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
-title = dcc.Markdown(children='')
-graph = dcc.Graph(figure={})
-dropdown = dcc.Dropdown(options=['temp', 'dew_point', 'rh',
-                                 'pressure', 'visibility', 'rain_3h'],
-                        value='temp',
-                        clearable=False)
+app = dash.Dash(__name__)
 
-# Customize Layout
-app.layout = dbc.Container([
-    dbc.Row([
-        dbc.Col([title], width=6)
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([graph], width=12)
+app.layout = html.Div([
+    html.Div(children=[
+        html.Button('Add Chart', id='add-chart', n_clicks=0)
     ]),
-    dbc.Row([
-        dbc.Col([dropdown], width=6)
-    ], justify='center'),
-], fluid=True)
+    html.Div(id='container', children=[])
+])
 
 
-# Callback allows components to interact
 @app.callback(
-    Output(graph, 'figure'),
-    Output(title, 'children'),
-    Input(dropdown, 'value')
+    Output(component_id='container', component_property='children'),
+    [Input(component_id='add-chart', component_property='n_clicks')],
+    [State(component_id='container', component_property='children')]
 )
-def update_graph(column_name):
-    print(column_name)
-    print(type(column_name))
-    fig = px.choropleth_mapbox(df, geojson=json_map, color=column_name,
-                               locations="eng_province", featureidkey="properties.name",
-                               center={"lat": 13.736717, "lon": 100.523186},
-                               mapbox_style="open-street-map", zoom=4)
-    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    return fig, '# '+column_name
+def display_graphs(n_clicks, div_children):
+    new_child = html.Div(
+        style={'width': '45%', 'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 10},
+        children=[
+            dcc.Graph(
+                id={
+                    'type': 'dynamic-graph',
+                    'index': n_clicks
+                },
+                figure={}
+            ),
+            dcc.RadioItems(
+                id={
+                    'type': 'dynamic-choice',
+                    'index': n_clicks
+                },
+                options=[{'label': 'Choropleth Map', 'value': 'choropleth'},
+                         {'label': 'Bar Chart', 'value': 'bar'}],
+                value='bar',
+            ),
+            dcc.Dropdown(
+                id={
+                    'type': 'dynamic-dpn-prov',
+                    'index': n_clicks
+                },
+                options=[{'label': s, 'value': s} for s in np.sort(df['eng_province'].unique())],
+                multi=True,
+                value=["Bangkok Metropolis", "Rayong"],
+            ),
+            dcc.Dropdown(
+                id={
+                    'type': 'dynamic-dpn-val',
+                    'index': n_clicks
+                },
+                options=[{'label': c, 'value': c} for c in ['temp', 'dew_point', 'rh',
+                                                            'pressure', 'visibility', 'rain_3h']],
+                value='temp',
+                clearable=False
+            )
+        ]
+    )
+    div_children.append(new_child)
+    return div_children
 
 
-# Run app
+@app.callback(
+Output({'type': 'dynamic-graph', 'index': MATCH}, 'figure'),
+    [Input(component_id={'type': 'dynamic-dpn-prov', 'index': MATCH}, component_property='value'),
+     Input(component_id={'type': 'dynamic-dpn-val', 'index': MATCH}, component_property='value'),
+     Input({'type': 'dynamic-choice', 'index': MATCH}, 'value')]
+)
+def update_graph(prov_value, val_value, chart_choice):
+    print(prov_value)
+    dff = df[df['eng_province'].isin(prov_value)]
+
+    if chart_choice == 'choropleth':
+        fig = px.choropleth_mapbox(df, geojson=json_map, color=val_value,
+                                   locations="eng_province", featureidkey="properties.name",
+                                   center={"lat": 13.736717, "lon": 100.523186},
+                                   mapbox_style="open-street-map", zoom=4)
+        fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+        return fig
+    elif chart_choice == 'bar':
+        fig = px.bar(dff, x='eng_province', y=val_value,
+                     hover_data=['temp', 'rh', 'pressure', 'rain_3h'], color='temp',
+                     labels={'eng_province': 'Province'}, height=400)
+        return fig
+
+
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8055)
+    app.run_server(debug=True, port=8000)
