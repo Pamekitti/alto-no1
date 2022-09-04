@@ -6,6 +6,7 @@ import pandas as pd                        # pip install pandas
 import numpy as np
 from process_thai import thai_province_map, thai_datetime
 from plot_error_mode import plot_line_error
+from prepare_data import get_day_data, get_week_data
 
 # Get Thailand map JSON File
 import urllib.request, json
@@ -19,35 +20,9 @@ id_table.drop(columns=id_table.columns[0], axis=1, inplace=True)
 id_main = id_table.drop_duplicates(subset=['id'], keep="first", inplace=False)
 # Merge Names to match JSON File
 df = thai_province_map(id_main, json_map)
-# Merge info from main stations
-to_merge = []
-for station_id in df['station_id']:
-    if np.isnan(station_id):
-        print(f'Station id: {station_id} not found')
-        continue
-    df_main = pd.read_csv(f'day_csv/day_{int(station_id)}.csv')
-    df_main.drop(columns=df_main.columns[0], axis=1, inplace=True)
-    df_main['datetime'] = df_main['datetime'].apply(lambda var: thai_datetime(var))
-    df_main['station_id'] = int(station_id)
-    to_merge += df_main.values.tolist()
-df_to_merge = pd.DataFrame(to_merge, columns=['datetime', 'temp', 'dew_point', 'rh',
-                                              'pressure', 'wind_dir', 'wind_sp',
-                                              'visibility', 'rain_3h', 'cloud', 'station_id'])
-df_day = df.merge(df_to_merge, how='left', on='station_id')
-
-to_merge = []
-for station_id in df['station_id']:
-    if np.isnan(station_id):
-        print(f'Station id: {station_id} not found')
-        continue
-    df_main = pd.read_csv(f'week_csv/week_{int(station_id)}.csv')
-    df_main.drop(columns=df_main.columns[0], axis=1, inplace=True)
-    df_main['date'] = df_main['date'].apply(lambda var: thai_datetime(var, day_data=False))
-    df_main['station_id'] = int(station_id)
-    to_merge += df_main.values.tolist()
-df_to_merge = pd.DataFrame(to_merge, columns=['date', 'min_temp', 'max_temp', 'max_wind_dir',
-                                              'max_wind_sp', 'rain_24h', 'note', 'station_id'])
-df_week = df.merge(df_to_merge, how='left', on='station_id')
+# Prepare Data for Dashboard
+df_day = get_day_data(df)
+df_week = get_week_data(df)
 
 '''
 DASH Web App
@@ -153,4 +128,4 @@ def update_graph(prov_value, val_value, chart_choice):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False, port=8000)
+    app.run_server(debug=False, port=5000)
