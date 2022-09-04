@@ -18,8 +18,7 @@ id_main = id_table.drop_duplicates(subset=['id'], keep="first", inplace=False)
 # Merge Names to match JSON File
 df = thai_province_map(id_main, json_map)
 # Merge info from main stations
-current_time = pd.to_datetime('202204'
-                              '09 13:00')
+current_time = pd.to_datetime('202204' '09 13:00')
 to_merge = []
 for station_id in df['station_id']:
     if np.isnan(station_id):
