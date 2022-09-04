@@ -18,7 +18,7 @@ id_main = id_table.drop_duplicates(subset=['id'], keep="first", inplace=False)
 # Merge Names to match JSON File
 df = thai_province_map(id_main, json_map)
 # Merge info from main stations
-current_time = pd.to_datetime('20220209 22:00')
+current_time = pd.to_datetime('202204' '09 13:00')
 to_merge = []
 for station_id in df['station_id']:
     if np.isnan(station_id):
@@ -29,10 +29,13 @@ for station_id in df['station_id']:
     df_main['datetime'] = df_main['datetime'].apply(lambda var: thai_datetime(var))
     df_main['station_id'] = int(station_id)
     try:
+        # current_time = df_main.iloc[0,0]
         current_stat = df_main[df_main['datetime'] == current_time]
         to_merge.append(current_stat.values.tolist()[0])
+        print(current_time)
     except:
         current_stat = df_main.iloc[0]
+        print ('except')
         # to_merge.append(current_stat.values.tolist())
 df_to_merge = pd.DataFrame(to_merge, columns=['datetime', 'temp', 'dew_point', 'rh',
                                               'pressure', 'wind_dir', 'wind_sp',
@@ -43,7 +46,8 @@ df = df.merge(df_to_merge, how='left', on='station_id')
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 title = dcc.Markdown(children='')
 graph = dcc.Graph(figure={})
-dropdown = dcc.Dropdown(options=df.columns.values[2:],
+dropdown = dcc.Dropdown(options=['temp', 'dew_point', 'rh',
+                                 'pressure', 'visibility', 'rain_3h'],
                         value='temp',
                         clearable=False)
 
@@ -70,7 +74,7 @@ app.layout = dbc.Container([
 def update_graph(column_name):
     print(column_name)
     print(type(column_name))
-    fig = px.choropleth_mapbox(th, geojson=json_map, color="temp",
+    fig = px.choropleth_mapbox(df, geojson=json_map, color=column_name,
                                locations="eng_province", featureidkey="properties.name",
                                center={"lat": 13.736717, "lon": 100.523186},
                                mapbox_style="open-street-map", zoom=4)
