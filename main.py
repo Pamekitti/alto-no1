@@ -8,7 +8,7 @@ from process_thai import thai_province_map, thai_datetime
 from plot_error_mode import plot_line_error
 from prepare_data import get_day_data, get_week_data
 import os
-app_port = os.environ['APP_PORT']
+app_port =  os.environ['APP_PORT']
 
 print(dash.__version__)
 # Get Thailand map JSON File
@@ -131,4 +131,4 @@ def update_graph(prov_value, val_value, chart_choice):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False, port=app_port)
+    app.run_server(debug=False, host='0.0.0.0', port=app_port)
