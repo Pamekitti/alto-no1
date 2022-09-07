@@ -1,6 +1,7 @@
 import pandas as pd
 from dateutil.relativedelta import relativedelta
 pd.options.mode.chained_assignment = None  # default='warn'
+import datetime as dt
 
 # Map province name from Thai to English
 def thai_province_map(id_main, json_map):
@@ -42,7 +43,7 @@ def thai_province_map(id_main, json_map):
     return df
 
 # Change thai month string to english
-def thai_datetime(test_str):
+def thai_datetime(test_str, day_data=True):
     test_str = test_str.replace(' น.', '')
     test_str = test_str.replace(' ม.ค. ', '01')
     test_str = test_str.replace(' ก.พ. ', '02')
@@ -57,5 +58,8 @@ def thai_datetime(test_str):
     test_str = test_str.replace(' พ.ย. ', '11')
     test_str = test_str.replace(' ธ.ค. ', '12')
 
-    test_str = pd.to_datetime(test_str) - relativedelta(years=43)
+    if day_data:
+        test_str = dt.datetime.strptime(test_str, '%d%m%y %H:%M') - relativedelta(years=43)
+    else:
+        test_str = dt.datetime.strptime(test_str, '%d%m%y') - relativedelta(years=43)
     return test_str
