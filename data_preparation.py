@@ -52,4 +52,4 @@ df_week = df.merge(df_to_merge, how='left', on='station_id')
 # Save to CSV files for later use
 df.to_csv('assets/main_id_table.csv')
 df_day.to_csv('assets/day_data.csv')
-df_day.to_csv('assets/week_data.csv')
+df_week.to_csv('assets/week_data.csv')
