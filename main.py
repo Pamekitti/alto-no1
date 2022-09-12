@@ -7,8 +7,9 @@ from dash.dependencies import Input, Output, State, MATCH
 import plotly.express as px
 import pandas as pd                        # pip install pandas
 import numpy as np
+import os
 
-app_port = 80 # os.environ['APP_PORT']
+app_port = os.environ['APP_PORT']
 
 print(dash.__version__)
 # Get Thailand map JSON File
