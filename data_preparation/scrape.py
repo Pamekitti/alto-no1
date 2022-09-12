@@ -5,7 +5,7 @@ import requests
 id_table columns:
 id, province, station_id, station_name
 '''
-id_table = pd.read_csv('id_table.csv')
+id_table = pd.read_csv('../assets/id_table.csv')
 new_requests_station = True
 # State Province id
 for i, station_id in enumerate(id_table['station_id']):

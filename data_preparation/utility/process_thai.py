@@ -9,7 +9,7 @@ def thai_province_map(id_main, json_map):
     for i in range(77):
         eng_list.append(json_map['features'][i]['properties']['name'])
 
-    name_map = pd.read_csv('Provinces_of_Thailand_1.csv')
+    name_map = pd.read_csv('../../assets/Provinces_of_Thailand_1.csv')
     name_map[['province', 'eng_province']] = name_map[['Name\n(in Thai)', 'Namesake town/city']]
     mapper = name_map[['province', 'eng_province']]
     index = mapper[mapper['eng_province']=='Bangkok'].index

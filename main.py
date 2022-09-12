@@ -1,23 +1,21 @@
 import dash
 from dash import dcc, html
-from dash.dependencies import Input, Output, ALL, State, MATCH, ALLSMALLER
+from dash.dependencies import Input, Output, State, MATCH
 import plotly.express as px
 import pandas as pd                        # pip install pandas
 import numpy as np
-from process_thai import thai_province_map, thai_datetime
-from plot_error_mode import plot_line_error
-from prepare_data import get_day_data, get_week_data
-import os
-app_port =  os.environ['APP_PORT']
+from data_preparation.utility.process_thai import thai_province_map, thai_datetime
+from graphs.plot_error_mode import plot_line_error
+from data_preparation.prepare_data import get_day_data, get_week_data
+# app_port = os.environ['APP_PORT']
 
-print(dash.__version__)
 # Get Thailand map JSON File
 import urllib.request, json
 with urllib.request.urlopen("https://raw.githubusercontent.com/apisit/thailand.json/master/thailand.json") as url:
     json_map = json.load(url)
 
 # Get id_table to map provinces name to ids
-id_table = pd.read_csv('id_table.csv')
+id_table = pd.read_csv('assets/id_table.csv')
 id_table.drop(columns=id_table.columns[0], axis=1, inplace=True)
 # Table of main station in each province
 id_main = id_table.drop_duplicates(subset=['id'], keep="first", inplace=False)
@@ -131,4 +129,4 @@ def update_graph(prov_value, val_value, chart_choice):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=app_port)
+    app.run_server(debug=False, host='0.0.0.0', port=80)

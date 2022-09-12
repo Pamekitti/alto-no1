@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from process_thai import thai_datetime
+from data_preparation.utility.process_thai import thai_datetime
 
 
 def get_day_data(df):

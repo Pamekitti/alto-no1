@@ -1,8 +1,7 @@
 import pandas as pd
 from bs4 import BeautifulSoup
 import requests
-from station import *
-import os
+from data_preparation.utility.station import *
 
 new_requests = False
 new_requests_station = False
@@ -61,4 +60,4 @@ for i in range(79):
 # Create id table
 id_table = pd.DataFrame(id_data, columns=['id', 'province', 'station_id', 'station_name'])
 id_table = id_table.drop_duplicates(subset=['station_id'], keep='last').reset_index(drop=True)
-id_table.to_csv('id_table.csv')
+id_table.to_csv('../assets/id_table.csv')
