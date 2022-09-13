@@ -12,7 +12,7 @@ map_layout = html.Div([
     html.Div([
         html.Div([
             dcc.Graph(id='mapbox', figure=mapbox)
-        ]),
+        ], id='left-container'),
         html.Div([
             html.Div([
                 html.Label("Date Range", className='dropdown-labels'),
@@ -37,9 +37,8 @@ map_layout = html.Div([
 
 
 @app.callback(
-    [Output(component_id='mapbox',
-            component_property='figure')
-     ],
+    Output(component_id='mapbox',
+           component_property='figure'),
     [State(component_id='map-date-range',
            component_property='value'),
      State(component_id='map-dropdown',
@@ -60,4 +59,4 @@ def update_map(date_range, data_display, n_clicks):
                 fig = plot_map_rain(dff)
             if data_display == 'max_wind_v':
                 fig = plot_map_wind(dff)
-            return fig
+    return fig

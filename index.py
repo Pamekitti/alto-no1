@@ -14,7 +14,7 @@ app_tabs = html.Div(
             [
                 dbc.Tab(label='Map', tab_id='tab-map', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
                 dbc.Tab(label='Overview', tab_id='tab-overview', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
-                # dbc.Tab(label='Data Explorer', tab_id='tab-explorer', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger")
+                dbc.Tab(label='Data Explorer', tab_id='tab-explorer', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger")
             ],
             id="tabs",
             active_tab="tab-map",
@@ -30,8 +30,8 @@ app.layout = dbc.Container([
 
 
 @app.callback(
-    [Output(component_id="content",
-            component_property="children")],
+    Output(component_id="content",
+           component_property="children"),
     [Input(component_id="tabs",
            component_property="active_tab")]
 )
@@ -40,11 +40,11 @@ def switch_tab(tab_chosen):
         return map_layout
     if tab_chosen == "tab-overview":
         return overview_layout
-    # if tab_chosen == "tab-explorer":
-    #     return explorer_layout
+    if tab_chosen == "tab-explorer":
+        return explorer_layout
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=80)
+    app.run_server(debug=True, port=8080)
 
 
