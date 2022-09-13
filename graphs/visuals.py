@@ -91,11 +91,11 @@ def plot_wind_rain(df, province):
     df[df['eng_province'] == province]
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(
-        go.Scatter(x=df['datetime'], y=df['max_wind_v'], name="Maximum Wind Speed"),
+        go.Scatter(x=df['date'], y=df['max_wind_v'], name="Maximum Wind Speed"),
         secondary_y=False,
     )
     fig.add_trace(
-        go.Scatter(x=df['datetime'], y=df['rain_24h'], name="Rain Volume last 24 Hrs"),
+        go.Scatter(x=df['date'], y=df['rain_24h'], name="Rain Volume last 24 Hrs"),
         secondary_y=True,
     )
     fig.update_layout(

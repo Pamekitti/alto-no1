@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output, State, MATCH
 import plotly.express as px
 import pandas as pd                        # pip install pandas
 import numpy as np
+from app import app
 
 df = pd.read_csv('assets/main_id_table.csv')
 df_day = pd.read_csv('assets/day_data.csv')
@@ -14,8 +15,7 @@ df_week = pd.read_csv('assets/week_data.csv')
 '''
 DASH Web App
 '''
-app = dash.Dash(__name__)
-app.layout = html.Div([
+explorer_layout = html.Div([
     html.Div(children=[
         html.Button('Add Chart', id='add-chart', n_clicks=0)
     ]),
@@ -76,7 +76,7 @@ def display_graphs(n_clicks, div_children):
 
 
 @app.callback(
-Output({'type': 'dynamic-graph', 'index': MATCH}, 'figure'),
+    Output({'type': 'dynamic-graph', 'index': MATCH}, 'figure'),
     [Input(component_id={'type': 'dynamic-dpn-prov', 'index': MATCH}, component_property='value'),
      Input(component_id={'type': 'dynamic-dpn-val', 'index': MATCH}, component_property='value'),
      Input({'type': 'dynamic-choice', 'index': MATCH}, 'value')]
