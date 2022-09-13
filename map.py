@@ -17,6 +17,7 @@ map_layout = html.Div([
                 dcc.Graph(id='mapbox', figure=mapbox, hoverData={'points': [{'location': 'Bangkok Metropolis'}]})
             ], id='left-container'),
             html.Div([
+                html.H1("Weather Map"),
                 html.P("Hover over your province of interest on the map to view weather time-series "
                        "and summary based on selected data to display"),
                 html.Label("Date Range", className='dropdown-labels', id='date-range'),

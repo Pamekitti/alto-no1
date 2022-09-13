@@ -1,17 +1,18 @@
 from data_processor.process_thai import thai_datetime
-from graphs.plot_error_mode import plot_line_error
+from graphs.explorer_graphs import *
+from graphs.visuals import *
 import dash
 from dash import dcc, html
-from graphs.visuals import *
 from dash.dependencies import Input, Output, State, MATCH
 import plotly.express as px
-import pandas as pd                        # pip install pandas
+import pandas as pd  # pip install pandas
 import numpy as np
 from app import app
 
 df = pd.read_csv('assets/main_id_table.csv')
+df_province = pd.read_csv('daily_summary/province_summary/province_all.csv')
+df_province['avg_temp'] = (df_province['max_temp'] + df_province['min_temp']) / 2
 df_day = pd.read_csv('assets/day_data.csv')
-df_week = pd.read_csv('assets/week_data.csv')
 
 explorer_layout = html.Div([
     html.Div(children=[
@@ -42,11 +43,12 @@ def display_graphs(n_clicks, div_children):
                     'type': 'dynamic-choice',
                     'index': n_clicks
                 },
-                options=[{'label': 'Choropleth Map', 'value': 'choropleth'},
-                         {'label': 'Line Day Chart', 'value': 'line_day'},
-                         {'label': 'Line Week Chart', 'value': 'line_week'}],
-                value='choropleth',
+                options=[
+                    {'label': 'Hourly Chart', 'value': 'line_day'},
+                    {'label': 'Daily Chart', 'value': 'line_province'}],
+                value='line_day'
             ),
+            html.Label('Select Provinces (Multiple)'),
             dcc.Dropdown(
                 id={
                     'type': 'dynamic-dpn-prov',
@@ -54,16 +56,39 @@ def display_graphs(n_clicks, div_children):
                 },
                 options=[{'label': s, 'value': s} for s in np.sort(df['eng_province'].unique())],
                 multi=True,
-                value=["Bangkok Metropolis", "Rayong", "Chiang Mai"],
+                value=["Bangkok Metropolis", "Rayong", "Chiang Mai"], 
             ),
+            html.Label('Select data for hourly chart'),
             dcc.Dropdown(
                 id={
-                    'type': 'dynamic-dpn-val',
+                    'type': 'dynamic-dpn-val-day',
                     'index': n_clicks
                 },
-                options=[{'label': c, 'value': c} for c in ['temp', 'dew_point', 'rh',
-                                                            'pressure', 'visibility', 'rain_3h']],
+                options=[
+                    {'label': "Temperature (°C)", 'value': 'temp'},
+                    {'label': "Dew Point", 'value': 'dew_point'},
+                    {'label': "Relative Humidity", 'value': 'rh'},
+                    {'label': "Pressure", 'value': 'pressure'},
+                    {'label': "Wind Speed", 'value': 'wind_sp'},
+                    {'label': "Visibility", 'value': 'visibility'},
+                    {'label': "Rain in 3 Hrs", 'value': 'rain_3h'}
+                ],
                 value='temp',
+                clearable=False
+
+            ),
+            html.Label('Select data for daily chart'),
+            dcc.Dropdown(
+                id={
+                    'type': 'dynamic-dpn-val-province',
+                    'index': n_clicks
+                },
+                options=[
+                    {'label': "Average Temperature", 'value': 'avg_temp'},
+                    {'label': "Last 24 Hrs Rain", 'value': 'rain_24h'},
+                    {'label': "Maximum Wind Speed", 'value': 'max_wind_v'},
+                         ],
+                value='avg_temp',
                 clearable=False
             )
         ]
@@ -75,36 +100,19 @@ def display_graphs(n_clicks, div_children):
 @app.callback(
     Output({'type': 'dynamic-graph', 'index': MATCH}, 'figure'),
     [Input(component_id={'type': 'dynamic-dpn-prov', 'index': MATCH}, component_property='value'),
-     Input(component_id={'type': 'dynamic-dpn-val', 'index': MATCH}, component_property='value'),
+     Input(component_id={'type': 'dynamic-dpn-val-day', 'index': MATCH}, component_property='value'),
+     Input(component_id={'type': 'dynamic-dpn-val-province', 'index': MATCH}, component_property='value'),
      Input({'type': 'dynamic-choice', 'index': MATCH}, 'value')]
 )
-def update_graph(prov_value, val_value, chart_choice):
+def update_graph(prov_value, day_val,province_val, chart_choice):
     print(prov_value)
-    current_time = thai_datetime('04 ก.ย. 65 13:00 น.')
 
-    dff_day = df_day[df_day['eng_province'].isin(prov_value)]
-    dff_now = dff_day[dff_day['datetime'] == current_time]
+    dfd = df_day[df_day['eng_province'].isin(prov_value)]
+    dfp = df_province[df_province['eng_province'].isin(prov_value)]
 
-    dff_week = df_week[df_week['eng_province'].isin(prov_value)]
-
-    if chart_choice == 'choropleth':
-        fig = px.choropleth_mapbox(df_day, geojson=json_map, color=val_value,
-                                   locations="eng_province", featureidkey="properties.name",
-                                   center={"lat": 13.736717, "lon": 100.523186}, zoom=4)
-        fig.update_layout(mapbox_style="dark")
-        fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    if chart_choice == 'line_day':
+        fig = line_plot_day(dfd, day_val)
         return fig
-    elif chart_choice == 'line_day':
-        fig = px.line(dff_day, x="datetime", y=val_value, color='eng_province')
-        fig.update_layout(template="simple_white")
-        fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-        return fig
-    elif chart_choice == 'line_week':
-        dff_week['temp_error'] = (dff_week['max_temp'] - dff_week['min_temp']) / 2
-        dff_week['mean_temp'] = dff_week['min_temp'] + dff_week['temp_error']
-        fig = plot_line_error(error_y_mode='band', data_frame=dff_week, x='date',
-                              y='mean_temp', error_y='temp_error', color='eng_province')
-        fig.update_layout(template="simple_white")
-        # fig = px.line(dff_week, x="date", y='mean_temp', color='eng_province')
-        fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    elif chart_choice == 'line_province':
+        fig = line_plot_province(dfp, province_val)
         return fig

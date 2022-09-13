@@ -9,57 +9,41 @@ df_province = pd.read_csv('daily_summary/province_summary/province_all.csv')
 df_province['avg_temp'] = (df_province['max_temp'] + df_province['min_temp']) / 2
 df_day = pd.read_csv('assets/day_data.csv')
 
-overview_month1 = plot_overview_month(df_province, 'Bangkok Metropolis', 'avg_temp')
-overview_month2 = plot_overview_month(df_province, 'Bangkok Metropolis', 'rain_24h')
-overview_month3 = plot_overview_month(df_province, 'Bangkok Metropolis', 'max_wind_v')
-overview_day = plot_overview_day(df_day, 'Bangkok Metropolis')
-wine_plot = plot_wind_polar(df_province, 'Bangkok Metropolis')
-wind_rain = plot_wind_rain(df_province, 'Bangkok Metropolis')
+overview_month1 = plot_overview_month(df_province, 'Bangkok Metropolis', 'avg_temp', show_title=False)
+overview_month2 = plot_overview_month(df_province, 'Bangkok Metropolis', 'rain_24h', show_title=False)
+overview_month3 = plot_overview_month(df_province, 'Bangkok Metropolis', 'max_wind_v', show_title=False)
+overview_day1 = plot_overview_day(df_day, 'Bangkok Metropolis', 'temp', show_title=False)
+overview_day2 = plot_overview_day(df_day, 'Bangkok Metropolis', 'rh', show_title=False)
+overview_day3 = plot_overview_day(df_day, 'Bangkok Metropolis', 'dew_point', show_title=False)
+overview_day4 = plot_overview_day(df_day, 'Bangkok Metropolis', 'pressure', show_title=False)
+overview_day5 = plot_overview_day(df_day, 'Bangkok Metropolis', 'wind_sp', show_title=False)
+overview_day6 = plot_overview_day(df_day, 'Bangkok Metropolis', 'visibility', show_title=False)
 
 province_dropdown = []
 for province in df_province['eng_province']:
     province_dropdown.append({'label': province, 'value': province})
 
 overview_layout = html.Div([
-    html.P("Hover over your province of interest on the map to view weather time-series "
-           "and summary based on selected data to display"),
-    html.Label("Date Range", className='dropdown-labels', id='date-range'),
-    dcc.DatePickerRange(
-        id='my-date-picker-range',  # ID to be used for callback
-        calendar_orientation='horizontal',  # vertical or horizontal
-        day_size=39,  # size of calendar image. Default is 39
-        end_date_placeholder_text="Return",  # text that appears when no end date chosen
-        with_portal=False,  # if True calendar will open in a full screen overlay portal
-        first_day_of_week=0,  # Display of calendar when open (0 = Sunday)
-        reopen_calendar_on_clear=True,
-        is_RTL=False,  # True or False for direction of calendar
-        clearable=True,  # whether or not the user can clear the dropdown
-        number_of_months_shown=1,  # number of months shown when calendar is open
-        min_date_allowed=dt(2022, 7, 1),  # minimum date allowed on the DatePickerRange component
-        max_date_allowed=dt(2022, 9, 11),  # maximum date allowed on the DatePickerRange component
-        initial_visible_month=dt(2022, 8, 1),
-        # the month initially presented when the user opens the calendar
-        start_date=dt(2022, 7, 1).date(),
-        end_date=dt(2022, 9, 11).date(),
-        display_format='MMM Do, YY',  # how selected dates are displayed in the DatePickerRange component.
-        month_format='MMMM, YYYY',  # how calendar headers are displayed when the calendar is opened.
-        minimum_nights=2,  # minimum number of days between start and end date
-
-        persistence=True,
-        persisted_props=['start_date'],
-        persistence_type='session',
-        updatemode='singledate'
-    ),
-    html.Label("Display Data", className='dropdown-labels'),
+    html.H1("Weather Overview by Province "),
+    html.Label("Select Province", className='dropdown-labels'),
     dcc.Dropdown(id='province-dropdown', className='dropdown',
                  options=province_dropdown,
                  value='Bangkok Metropolis'),
-    dcc.Graph(id='overview-month1', figure=overview_month1),
-    dcc.Graph(id='overview-month2', figure=overview_month2),
-    dcc.Graph(id='overview-month3', figure=overview_month3),
-    dcc.Graph(id='overview-day', figure=overview_day),
-    dcc.Graph(id='wind-plot', figure=wine_plot),
-    dcc.Graph(id='wind-rain', figure=wind_rain),
+    html.Div([
+        html.H6("Past Daily Report"),
+        dcc.Graph(id='overview-month1', figure=overview_month1),
+        dcc.Graph(id='overview-month2', figure=overview_month2),
+        dcc.Graph(id='overview-month3', figure=overview_month3)
+    ], id='left-overview'),
+    html.Div([
+        html.H6("Today's Hourly Report"),
+        dcc.Graph(id='overview-day1', figure=overview_day1),
+        dcc.Graph(id='overview-day2', figure=overview_day2),
+        dcc.Graph(id='overview-day3', figure=overview_day3),
+        dcc.Graph(id='overview-day4', figure=overview_day4),
+        dcc.Graph(id='overview-day5', figure=overview_day5),
+        dcc.Graph(id='overview-day6', figure=overview_day6),
+    ], id='right-overview')
 ])
 
 
@@ -70,29 +54,33 @@ overview_layout = html.Div([
             component_property='figure'),
      Output(component_id='overview-month3',
             component_property='figure'),
-     Output(component_id='overview-day',
+     Output(component_id='overview-day1',
             component_property='figure'),
-     Output(component_id='wind-plot',
+     Output(component_id='overview-day2',
             component_property='figure'),
-     Output(component_id='wind-rain',
-            component_property='figure')
+     Output(component_id='overview-day3',
+            component_property='figure'),
+     Output(component_id='overview-day4',
+            component_property='figure'),
+     Output(component_id='overview-day5',
+            component_property='figure'),
+     Output(component_id='overview-day6',
+            component_property='figure'),
      ],
-    [Input(component_id='my-date-picker-range',
-           component_property='start_date'),
-     Input(component_id='my-date-picker-range',
-           component_property='end_date'),
-     Input(component_id='province-dropdown',
-           component_property='value')
-     ]
+    Input(component_id='province-dropdown',
+          component_property='value')
 )
-def update_graphs(start, end, pick):
+def update_graphs(pick):
     dfp = df_province.copy()
     dfd = df_day.copy()
-    dfp = dfp[dfp['date'].between(start, end)]
-    fig1_1 = plot_overview_month(dfp, pick, 'avg_temp')
-    fig1_2 = plot_overview_month(dfp, pick, 'rain_24h')
-    fig1_3 = plot_overview_month(dfp, pick, 'max_wind_v')
-    fig2 = plot_overview_day(dfd, pick)
-    fig3 = plot_wind_polar(dfp, pick)
-    fig4 = plot_wind_rain(dfp, pick)
-    return fig1_1, fig1_2, fig1_3, fig2, fig3, fig4
+    fig1_1 = plot_overview_month(dfp, pick, 'avg_temp', show_title=False)
+    fig1_2 = plot_overview_month(dfp, pick, 'rain_24h', show_title=False)
+    fig1_3 = plot_overview_month(dfp, pick, 'max_wind_v', show_title=False)
+    fig2_1 = plot_overview_day(dfd, pick, 'temp', show_title=False)
+    fig2_2 = plot_overview_day(dfd, pick, 'rh', show_title=False)
+    fig2_3 = plot_overview_day(dfd, pick, 'dew_point', show_title=False)
+    fig2_4 = plot_overview_day(dfd, pick, 'pressure', show_title=False)
+    fig2_5 = plot_overview_day(dfd, pick, 'wind_sp', show_title=False)
+    fig2_6 = plot_overview_day(dfd, pick, 'visibility', show_title=False)
+
+    return fig1_1, fig1_2, fig1_3, fig2_1, fig2_2, fig2_3, fig2_4, fig2_5, fig2_6

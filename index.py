@@ -32,7 +32,7 @@ app.layout = html.Div([
             html.H2("Weather Dash", className="display-4"),
             html.Hr(),
             html.P(
-                "Interactive Weather Visualization Platform", className="lead"
+                "Interactive Weather App", className="lead"
             ),
             dbc.Nav(
                 [
