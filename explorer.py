@@ -28,7 +28,7 @@ explorer_layout = html.Div([
 )
 def display_graphs(n_clicks, div_children):
     new_child = html.Div(
-        style={'width': '45%', 'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 10},
+        style={'width': '100%', 'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 10},
         children=[
             dcc.Graph(
                 id={
@@ -43,7 +43,6 @@ def display_graphs(n_clicks, div_children):
                     'index': n_clicks
                 },
                 options=[{'label': 'Choropleth Map', 'value': 'choropleth'},
-                         {'label': 'Bar Chart', 'value': 'bar'},
                          {'label': 'Line Day Chart', 'value': 'line_day'},
                          {'label': 'Line Week Chart', 'value': 'line_week'}],
                 value='choropleth',
@@ -91,22 +90,21 @@ def update_graph(prov_value, val_value, chart_choice):
     if chart_choice == 'choropleth':
         fig = px.choropleth_mapbox(df_day, geojson=json_map, color=val_value,
                                    locations="eng_province", featureidkey="properties.name",
-                                   center={"lat": 13.736717, "lon": 100.523186},
-                                   mapbox_style="open-street-map", zoom=4)
+                                   center={"lat": 13.736717, "lon": 100.523186}, zoom=4)
+        fig.update_layout(mapbox_style="dark")
         fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-        return fig
-    elif chart_choice == 'bar':
-        fig = px.bar(dff_now, x='eng_province', y=val_value,
-                     hover_data=['temp', 'rh', 'pressure', 'rain_3h'], color='temp',
-                     labels={'eng_province': 'Province'}, height=400)
         return fig
     elif chart_choice == 'line_day':
         fig = px.line(dff_day, x="datetime", y=val_value, color='eng_province')
+        fig.update_layout(template="simple_white")
+        fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
         return fig
     elif chart_choice == 'line_week':
         dff_week['temp_error'] = (dff_week['max_temp'] - dff_week['min_temp']) / 2
         dff_week['mean_temp'] = dff_week['min_temp'] + dff_week['temp_error']
         fig = plot_line_error(error_y_mode='band', data_frame=dff_week, x='date',
                               y='mean_temp', error_y='temp_error', color='eng_province')
+        fig.update_layout(template="simple_white")
         # fig = px.line(dff_week, x="date", y='mean_temp', color='eng_province')
+        fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
         return fig
