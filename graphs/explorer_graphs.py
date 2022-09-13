@@ -7,6 +7,9 @@ with urllib.request.urlopen("https://raw.githubusercontent.com/apisit/thailand.j
 mapbox_access_token = 'pk.eyJ1IjoicGFtZWtpdHRpIiwiYSI6ImNsN3J1M3Q3MTBpczUzb284YXh1ZmtqMzgifQ.CqCWrWGetLG4oR3T0rrZUw'
 px.set_mapbox_access_token(mapbox_access_token)
 
+'''
+Functions to generate graphs for explorer.py or Data Explorer page on DASH Web
+'''
 
 def line_plot_day(df, variable):
     fig = px.line(df, x="datetime", y=variable, color='eng_province')

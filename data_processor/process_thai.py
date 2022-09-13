@@ -5,6 +5,25 @@ import datetime as dt
 
 # Map province name from Thai to English
 def thai_province_map(id_main, json_map):
+    """
+    Map thai province name to English province, those exist in JSON Map
+
+    Connecting data to location key in JSON allows us to visualize data in plotly choropleth.
+    The function simply map using a table got from https://en.wikipedia.org/wiki/Provinces_of_Thailand
+    which can map most of the provinces except some of these have to manually match below.
+
+    Parameters
+    ----------
+    id_main: DataFrame
+        DataFrame containing Thai province and ids that map to the weather data
+    json_map: JSON file
+        got from json.load("https://raw.githubusercontent.com/apisit/thailand.json/master/thailand.json")
+
+    Returns
+    -------
+    df : DataFrame
+        Mapped DataFrame
+    """
     eng_list = []
     for i in range(77):
         eng_list.append(json_map['features'][i]['properties']['name'])
@@ -45,6 +64,10 @@ def thai_province_map(id_main, json_map):
 
 # Change thai month string to english
 def thai_datetime(test_str, day_data=True):
+    '''
+    Convert Thai month to numbers allow string to be converted to datetime later on
+    The function inputs sting and outputs converted string
+    '''
     test_str = test_str.replace(' น.', '')
     test_str = test_str.replace(' ม.ค. ', '01')
     test_str = test_str.replace(' ก.พ. ', '02')
@@ -66,6 +89,9 @@ def thai_datetime(test_str, day_data=True):
     return test_str
 
 def thai_region(thai_str):
+    '''
+    Convert thai region names to English names
+    '''
     eng_str = 'unknown_region'
     if thai_str == 'ภาคเหนือ':
         eng_str = 'north'
