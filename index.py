@@ -1,14 +1,12 @@
 import dash_bootstrap_components as dbc
-import dash
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc
 from dash.dependencies import Output, Input
 from app import app
 
 # Connect to the layout and callbacks of each tab
 from map import map_layout
 from overview import overview_layout
-from explorer import explorer_layout
+# from explorer import explorer_layout
 
 app_tabs = html.Div(
     [
@@ -16,7 +14,7 @@ app_tabs = html.Div(
             [
                 dbc.Tab(label='Map', tab_id='tab-map', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
                 dbc.Tab(label='Overview', tab_id='tab-overview', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
-                dbc.Tab(label='Data Explorer', tab_id='tab-explorer', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger")
+                # dbc.Tab(label='Data Explorer', tab_id='tab-explorer', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger")
             ],
             id="tabs",
             active_tab="tab-map",
@@ -25,11 +23,12 @@ app_tabs = html.Div(
 )
 
 app.layout = dbc.Container([
-    dbc.Row(dbc.Col(html.H1(label="Weather Dash", style={"textAlign": "center"}), width=12)),
-    html.Hr(),
+    dbc.Row(dbc.Col(html.H1("Weather Dash", style={"textAlign": "center"}), width=12)),
+    html.Hr("Test"),
     dbc.Row(dbc.Col(app_tabs, width=12), className="mb-3"),
     html.Div(id='content', children=[])
 ])
+
 
 @app.callback(
     [Output(component_id="content",
