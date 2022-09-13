@@ -2,6 +2,9 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc
 from dash.dependencies import Output, Input
 from app import app
+import os
+
+app_port = os.environ['APP_PORT']
 
 # Connect to the layout and callbacks of each tab
 from map import map_layout
@@ -71,6 +74,4 @@ def render_page_content(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8080)
-
-
+    app.run_server(debug=False, host='0.0.0.0', port=app_port)

@@ -1,11 +1,17 @@
 import pandas as pd
 from bs4 import BeautifulSoup
 import requests
-'''
+"""
 id_table columns:
 id, province, station_id, station_name
-'''
+"""
 id_table = pd.read_csv('../assets/id_table.csv')
+"""
+True: If you want to scrap new daily (hourly) data but it will take time
+False: Faster run for development purpose
+scrape.py extract hourly data (update every 3 hours) of the last 24 hours only
+Link to an example of a page the code scrapes: https://www.tmd.go.th/province_weather_stat.php?StationNumber=48455
+"""
 new_requests_station = True
 # State Province id
 for i, station_id in enumerate(id_table['station_id']):

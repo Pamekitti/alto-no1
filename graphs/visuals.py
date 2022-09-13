@@ -10,7 +10,7 @@ mapbox_access_token = 'pk.eyJ1IjoicGFtZWtpdHRpIiwiYSI6ImNsN3J1M3Q3MTBpczUzb284YX
 px.set_mapbox_access_token(mapbox_access_token)
 
 '''
-1. Map
+1. Generate Choropleth Mapbox for map.py or 'Map' page on DASH Web
 '''
 
 
@@ -47,7 +47,7 @@ def plot_map_wind(df):
 
 
 '''
-Overview
+2. Generate graphs used in overview.py or Overview page DASH Web
 '''
 
 
