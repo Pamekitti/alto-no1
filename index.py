@@ -14,7 +14,7 @@ app_tabs = html.Div(
             [
                 dbc.Tab(label='Map', tab_id='tab-map', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
                 dbc.Tab(label='Overview', tab_id='tab-overview', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
-                dbc.Tab(label='Data Explorer', tab_id='tab-explorer', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger")
+                # dbc.Tab(label='Data Explorer', tab_id='tab-explorer', labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger")
             ],
             id="tabs",
             active_tab="tab-map",
@@ -24,7 +24,6 @@ app_tabs = html.Div(
 
 app.layout = dbc.Container([
     dbc.Row(dbc.Col(html.H1("Weather Dash", style={"textAlign": "center"}), width=12)),
-    html.Hr("Test"),
     dbc.Row(dbc.Col(app_tabs, width=12), className="mb-3"),
     html.Div(id='content', children=[])
 ])
@@ -41,11 +40,11 @@ def switch_tab(tab_chosen):
         return map_layout
     if tab_chosen == "tab-overview":
         return overview_layout
-    if tab_chosen == "tab-explorer":
-        return explorer_layout
+    # if tab_chosen == "tab-explorer":
+    #     return explorer_layout
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=80)
 
 
