@@ -2,6 +2,9 @@
 # Weather Dash
 
 Visualize weather data with highly customizable interative dashboard, plotly DASH.
+
+<img width="1491" alt="image" src="https://github.com/Pamekitti/weather-dash/assets/93110244/9452678b-f926-4bd3-8ec5-93e3759f6908">
+
 ## Link 
 http://weatherdash.gdbqbeapbmehasbr.southeastasia.azurecontainer.io/
 
